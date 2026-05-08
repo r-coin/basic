@@ -1,5 +1,5 @@
 """
-primes_mlx.py — Furui's 6n±1 prime sieve, MLX-accelerated for Apple Silicon.
+primes_mlx.py — Ryoji Furui's 6n±1 prime sieve, MLX-accelerated for Apple Silicon.
 
 Single file. Auto-tunes for any Apple Silicon chip (M1, M2, M3, M4, M5+) and
 any memory configuration (8 GB through 192 GB Ultra). No deps beyond
