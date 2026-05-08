@@ -5,7 +5,7 @@ Single file. Auto-tunes for any Apple Silicon chip (M1, M2, M3, M4, M5+) and
 any memory configuration (8 GB through 192 GB Ultra). No deps beyond
 `mlx` and `numpy`.
 
-Theory (R. Furui, "The formulation of prime numbers"):
+Theory (Ryoji Furui, "The formulation of prime numbers"):
     Every prime > 3 is of the form 6n−1 or 6n+1.
     Every composite of that form factors as (6a±1)(6b±1).
     Sieve = candidates − {products}.
