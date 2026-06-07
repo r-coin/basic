@@ -18,6 +18,12 @@ Strategy:
     4. Otherwise, run SEGMENTED mode: split [0, 6y+1] into blocks sized
        to fit the budget and sieve each block in turn. Memory footprint
        becomes O(segment_size + factors), independent of y.
+
+Revision notes:
+    * Trial factors are now restricted to the PRIMES ≤ √(6y+1) rather than to
+      every 6n±1 candidate ≤ √(6y+1). Every composite 6n±1 has a prime factor
+      in that range, so the result is identical while the GPU does strictly
+      fewer scatter writes (about a 3-4× reduction in factor count).
 """
 
 from __future__ import annotations
@@ -178,6 +184,29 @@ def _candidates_np(n_lo: int, n_hi: int, dtype=None) -> np.ndarray:
     return out
 
 
+def _prime_factors_upto(limit: int, dtype=None) -> np.ndarray:
+    """Primes p with 3 < p ≤ limit — the only trial factors the sieve needs.
+
+    Every composite of the form 6n±1 has a prime factor ≤ √(6y+1), so striking
+    the multiples of just these primes removes every composite. 2 and 3 never
+    divide a 6n±1 value, so they are excluded. The factor sieve itself is a
+    cheap CPU Eratosthenes over [0, limit] (limit = √(6y+1) is tiny relative
+    to the main range).
+    """
+    if dtype is None:
+        dtype = np.int64
+    if limit < 5:
+        return np.empty(0, dtype=dtype)
+    sieve = np.ones(limit + 1, dtype=bool)
+    sieve[:2] = False
+    for i in range(2, math.isqrt(limit) + 1):
+        if sieve[i]:
+            sieve[i * i :: i] = False
+    primes = np.flatnonzero(sieve)
+    primes = primes[primes > 3]
+    return primes.astype(dtype)
+
+
 def _np_dtype_for(use_int32: bool):
     return np.int32 if use_int32 else np.int64
 
@@ -197,9 +226,8 @@ def _find_primes_full(x: int, y: int, plan: dict) -> np.ndarray:
 
     is_composite = mx.zeros(max_val + 1, dtype=mx.uint8)
 
-    n_factor_max = (sqrt_max + 1) // 6 + 1
-    factors_host = _candidates_np(1, n_factor_max, dtype=np_dt)
-    factors_host = factors_host[factors_host <= sqrt_max]
+    # Only the primes ≤ √max are needed as trial factors.
+    factors_host = _prime_factors_upto(sqrt_max, np_dt)
 
     full_cands_host = _candidates_np(1, y, dtype=np_dt)
     full_cands = mx.array(full_cands_host).astype(mx_dt)
@@ -241,9 +269,8 @@ def _find_primes_segmented(x: int, y: int, plan: dict) -> np.ndarray:
     np_dt = _np_dtype_for(plan["use_int32"])
     mx_dt = _mx_dtype_for(plan["use_int32"])
 
-    n_factor_max = (sqrt_max + 1) // 6 + 1
-    factors_host = _candidates_np(1, n_factor_max, dtype=np_dt)
-    factors_host = factors_host[factors_host <= sqrt_max]
+    # Only the primes ≤ √max are needed as trial factors.
+    factors_host = _prime_factors_upto(sqrt_max, np_dt)
 
     segment_size = plan["segment_size"]
     n_segments = (max_val + 1 + segment_size - 1) // segment_size
