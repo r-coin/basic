@@ -1,0 +1,57 @@
+{
+  "plasmon_speed_design_m_s": 2331197.965421007,
+  "speed_band_m_s": [
+    2201384.4943482894,
+    2337247.3489001123
+  ],
+  "cell_length_zero_drift_nm": 582.7994913552518,
+  "cell_length_operating_nm": 576.62157290196,
+  "E_F_meV": 116.66503170948613,
+  "Q_300K": 6.283185307179586,
+  "Q_353K": 5.339817541512396,
+  "M_th_300K": 0.125,
+  "M_th_353K": 0.14708333333333332,
+  "M_th_num": 0.16894319463373791,
+  "v0_operating_m_s": 240016.25718980448,
+  "J_mA_per_um": 0.3845484390496392,
+  "per_gate_loss_300K_dB": 2.171472409516259,
+  "per_gate_loss_353K_dB": 2.555099201864131,
+  "cw_regen_gain_dB_at_0p7": 9.66100611708918,
+  "pulse_gain_dB_at_0p7_streaming": 7.79670696148679,
+  "cascade_per_cell_dB": {
+    "0": 8.401641447428242,
+    "-1": 8.632513286216733,
+    "-3": 8.984349581454515,
+    "-6": 9.308711116003526
+  },
+  "compression_1pct_dB": -0.9691001300805644,
+  "compression_10pct_dB": -14.14973347970818,
+  "noise_figure_floor_dB": 2.768939660565078,
+  "noise_margin_frac": 0.25641458774368575,
+  "yield_1e12_literature_pct": 100.0,
+  "yield_1e12_broad_pct": 86.53999999999999,
+  "yield_3e11_literature_pct": 100.0,
+  "yield_1e11_literature_pct": 66.375,
+  "dissipation_operating_kW_cm2": 1.267026989225586,
+  "dissipation_upper_kW_cm2": 1.6642818356447195,
+  "block_power_mW": [
+    0.08869188924579102,
+    0.11649972849513039
+  ],
+  "energy_per_add_fJ": [
+    0.3547675569831641,
+    0.4659989139805216
+  ],
+  "dT_fill_third_operating_K": 42.2342329741862,
+  "dT_fill_third_upper_K": 55.47606118815732,
+  "dT_block_K": 5.068107956902344,
+  "pass1_corner_kW_cm2": 193.06792441968162,
+  "tau_ee_fs_300K": 114.89951173720434,
+  "omega_tau_ee": 0.7219349239493107,
+  "viscous_fraction": 0.20866980863811171,
+  "L_over_mfp_353K": 0.6857607348280129,
+  "hydro_expiry_K": 254.9002611913883,
+  "coupled_max_growth_0p7": -176500000000.0,
+  "coupled_max_growth_0p9": -58833333333.33329,
+  "vsat_over_s_1e13": 0.1337057327952628
+}
